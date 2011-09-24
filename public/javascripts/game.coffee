@@ -62,7 +62,7 @@ $ ->
 
 	$(document).keydown (event) ->
 		switch event.keyCode
-			when KEY.LEFT_ARROW then speed = {x: -1, y: 0}
-			when KEY.UP_ARROW then speed = {x: 0, y: -1}
-			when KEY.RIGHT_ARROW then speed = {x: 1, y: 0}
-			when KEY.DOWN_ARROW then speed = {x: 0, y: 1}
+			when KEY.LEFT_ARROW then speed = {x: -1, y: 0} if speed.x != 1; break;
+			when KEY.UP_ARROW then speed = {x: 0, y: -1} if speed.y != 1; break;
+			when KEY.RIGHT_ARROW then speed = {x: 1, y: 0} if speed.x != -1; break;
+			when KEY.DOWN_ARROW then speed = {x: 0, y: 1} if speed.y != -1; break;
