@@ -17,22 +17,16 @@ position =
 	left: 150
 
 initMap = (ctx) ->
-
 	ctx.fillStyle = "rgb(128,0,0)"
 	ctx.fillRect 0, 0, 300, 300
 	ctx.fillStyle = "rgb(255,200,200)"
 	ctx.fillRect 5, 5, 290, 290
 
-drawDot = (ctx, pos) ->
-	ctx.fillStyle = "rgb(0,0,0)"
-	ctx.fillRect pos.top, pos.left, 1, 1
-
 tick = (ctx) ->
-
 	position.top += speed.x
 	position.left += speed.y
 
-	drawDot ctx, { top: position.top, left: position.left }
+	ctx.fillRect position.top, position.left, 2, 2
 
 	if !map[position.top] || !map[position.top][position.left]
 		clearInterval(intervalId)
@@ -46,6 +40,7 @@ $ ->
 
 	initMap ctx
 
+	ctx.fillStyle = "rgb(0,0,0)"
 	intervalId = setInterval tick, 10, ctx
 
 	$(document).keydown (event) ->
