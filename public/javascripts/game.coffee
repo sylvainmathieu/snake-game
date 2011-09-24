@@ -1,6 +1,8 @@
 
 intervalId = null
-map = (1 for i in [0..300] for j in [0..300])
+map = (0 for y in [0..30] for x in [0..30])
+
+lifeTime = 10
 
 KEY =
 	LEFT_ARROW: 37
@@ -13,35 +15,50 @@ speed =
 	y: 0
 
 position =
-	top: 150
-	left: 150
+	top: 15
+	left: 15
 
-initMap = (ctx) ->
-	ctx.fillStyle = "rgb(128,0,0)"
+init = (ctx) ->
+	ctx.fillStyle = "#27005b"
 	ctx.fillRect 0, 0, 300, 300
-	ctx.fillStyle = "rgb(255,200,200)"
-	ctx.fillRect 5, 5, 290, 290
+
+drawBlock = (ctx, pos) ->
+	ctx.strokeStyle = "#ffffff"
+	ctx.strokeRect pos.top * 10 + 1, pos.left * 10 + 1, 8, 8
+	ctx.fillStyle = "rgba(255,255,255,0.2)"
+	ctx.fillRect pos.top * 10 + 1, pos.left * 10 + 1, 8, 8
+
+eraseBlock = (ctx, pos) ->
+	ctx.fillStyle = "#27005b"
+	ctx.fillRect pos.top * 10, pos.left * 10, 10, 10
 
 tick = (ctx) ->
+
 	position.top += speed.x
 	position.left += speed.y
 
-	ctx.fillRect position.top, position.left, 2, 2
+	for y in [0..30]
+		for x in [0..30]
+			if map[x][y] > 0
+				map[x][y]--
+				if map[x][y] == 0
+					eraseBlock ctx, {top: y, left: x}
 
-	if !map[position.top] || !map[position.top][position.left]
+	drawBlock ctx, position
+
+	if map[position.left] == undefined || map[position.left][position.top] == undefined || map[position.left][position.top] > 0
 		clearInterval(intervalId)
 		alert("Perdu!")
 	else
-		map[position.top][position.left] = 0
+		map[position.left][position.top] = lifeTime
 
 $ ->
 	canvas = document.getElementById "game"
 	ctx = canvas.getContext "2d"
 
-	initMap ctx
+	init ctx
 
-	ctx.fillStyle = "rgb(0,0,0)"
-	intervalId = setInterval tick, 10, ctx
+	intervalId = setInterval tick, 100, ctx
 
 	$(document).keydown (event) ->
 		switch event.keyCode
