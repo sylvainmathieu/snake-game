@@ -1,0 +1,8 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+#{set 'moreScripts'}
+<script src="@{'/public/javascripts/game.coffee'}" type="text/javascript" charset="${_response_encoding}"></script>
+#{/set}
+
+<canvas id="game" width="300" height="300"></canvas>

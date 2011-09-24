@@ -1,0 +1,45 @@
+
+KEY =
+	LEFT_ARROW: 37
+	UP_ARROW: 38
+	RIGHT_ARROW: 39
+	DOWN_ARROW: 40
+
+speed =
+	x: 1
+	y: 0
+
+position =
+	top: 150
+	left: 150
+
+initMap = (ctx) ->
+	ctx.fillStyle = "rgb(128,0,0)"
+	ctx.fillRect 0, 0, 300, 300
+	ctx.fillStyle = "rgb(255,200,200)"
+	ctx.fillRect 5, 5, 290, 290
+
+drawDot = (ctx, pos, size = 2) ->
+	ctx.fillStyle = "rgb(0,0,0)"
+	ctx.fillRect pos.top, pos.left, size, size
+
+tick = (ctx) ->
+	position.top += speed.x
+	position.left += speed.y
+	drawDot ctx, { top: position.top, left: position.left }
+	console.log "test"
+
+$ ->
+	canvas = document.getElementById "game"
+	ctx = canvas.getContext "2d"
+
+	initMap ctx
+
+	setInterval tick, 10, ctx
+
+	$(document).keydown (event) ->
+		switch event.keyCode
+			when KEY.LEFT_ARROW then speed = {x: -1, y: 0}
+			when KEY.UP_ARROW then speed = {x: 0, y: -1}
+			when KEY.RIGHT_ARROW then speed = {x: 1, y: 0}
+			when KEY.DOWN_ARROW then speed = {x: 0, y: 1}
