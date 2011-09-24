@@ -1,6 +1,11 @@
 
 intervalId = null
-map = (0 for y in [0..30] for x in [0..30])
+
+map = (0 for y in [0..29] for x in [0..29])
+
+food =
+	x: 16
+	y: 15
 
 lifeTime = 10
 
@@ -23,26 +28,45 @@ init = (ctx) ->
 	ctx.fillRect 0, 0, 300, 300
 
 drawBlock = (ctx, pos) ->
-	ctx.strokeStyle = "#ffffff"
-	ctx.strokeRect pos.top * 10 + 1, pos.left * 10 + 1, 8, 8
+	ctx.strokeStyle = "rgb(255,255,255)"
+	ctx.strokeRect pos.left * 10 + 1, pos.top * 10 + 1, 8, 8
 	ctx.fillStyle = "rgba(255,255,255,0.2)"
-	ctx.fillRect pos.top * 10 + 1, pos.left * 10 + 1, 8, 8
+	ctx.fillRect pos.left * 10 + 1, pos.top * 10 + 1, 8, 8
 
 eraseBlock = (ctx, pos) ->
 	ctx.fillStyle = "#27005b"
-	ctx.fillRect pos.top * 10, pos.left * 10, 10, 10
+	ctx.fillRect pos.left * 10, pos.top * 10, 10, 10
+
+popFood = (ctx) ->
+	randPosition = ->
+		food.x = Math.floor(Math.random() * 30)
+		food.y = Math.floor(Math.random() * 30)
+	randPosition()	
+	randPosition() while map[food.x][food.y] > 0
+
+	ctx.strokeStyle = "rgb(255,255,255)"
+	ctx.strokeRect food.x * 10 + 1, food.y * 10 + 1, 8, 8
+	ctx.fillStyle = "rgba(152,208,0,0.8)"
+	ctx.fillRect food.x * 10 + 1, food.y * 10 + 1, 8, 8
+
+eatFood = (ctx) ->
+	eraseBlock ctx, position
+	lifeTime++
+	popFood ctx
 
 tick = (ctx) ->
 
-	position.top += speed.x
-	position.left += speed.y
+	position.top += speed.y
+	position.left += speed.x
 
-	for y in [0..30]
-		for x in [0..30]
+	for y in [0..29]
+		for x in [0..29]
 			if map[x][y] > 0
 				map[x][y]--
 				if map[x][y] == 0
 					eraseBlock ctx, {top: y, left: x}
+
+	eatFood ctx if position.left == food.x && position.top == food.y
 
 	drawBlock ctx, position
 
@@ -59,6 +83,8 @@ $ ->
 	init ctx
 
 	intervalId = setInterval tick, 100, ctx
+
+	popFood ctx
 
 	$(document).keydown (event) ->
 		switch event.keyCode
