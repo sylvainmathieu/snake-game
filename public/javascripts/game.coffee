@@ -1,4 +1,7 @@
 
+intervalId = null
+map = (1 for i in [0..300] for j in [0..300])
+
 KEY =
 	LEFT_ARROW: 37
 	UP_ARROW: 38
@@ -14,20 +17,28 @@ position =
 	left: 150
 
 initMap = (ctx) ->
+
 	ctx.fillStyle = "rgb(128,0,0)"
 	ctx.fillRect 0, 0, 300, 300
 	ctx.fillStyle = "rgb(255,200,200)"
 	ctx.fillRect 5, 5, 290, 290
 
-drawDot = (ctx, pos, size = 2) ->
+drawDot = (ctx, pos) ->
 	ctx.fillStyle = "rgb(0,0,0)"
-	ctx.fillRect pos.top, pos.left, size, size
+	ctx.fillRect pos.top, pos.left, 1, 1
 
 tick = (ctx) ->
+
 	position.top += speed.x
 	position.left += speed.y
+
 	drawDot ctx, { top: position.top, left: position.left }
-	console.log "test"
+
+	if !map[position.top] || !map[position.top][position.left]
+		clearInterval(intervalId)
+		alert("Perdu!")
+	else
+		map[position.top][position.left] = 0
 
 $ ->
 	canvas = document.getElementById "game"
@@ -35,7 +46,7 @@ $ ->
 
 	initMap ctx
 
-	setInterval tick, 10, ctx
+	intervalId = setInterval tick, 10, ctx
 
 	$(document).keydown (event) ->
 		switch event.keyCode
