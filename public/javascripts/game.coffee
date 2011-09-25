@@ -1,27 +1,13 @@
 
-intervalId = null
-ctx = null
-score = 0
-
+intervalId = ctx = score = nextSpeed = speed = playerPos = food = map = null
 gridSize = 40
-
-map = (0 for y in [0..(gridSize - 1)] for x in [0..(gridSize - 1)])
-lifeTime = 10
+lifeTime = null
 
 KEY =
 	LEFT_ARROW: 37
 	UP_ARROW: 38
 	RIGHT_ARROW: 39
 	DOWN_ARROW: 40
-
-nextSpeed = {x: 1, y: 0}
-speed = {x: 1, y: 0}
-playerPos = {x: 15, y: 15}
-food = {x: 16, y: 15}
-
-init = ->
-	ctx.fillStyle = "#27005b"
-	ctx.fillRect 0, 0, gridSize * 10, gridSize * 10
 
 drawBlock = (pos) ->
 	ctx.strokeStyle = "rgba(255,255,255, 0.5)"
@@ -30,7 +16,7 @@ drawBlock = (pos) ->
 	ctx.fillRect pos.x * 10 + 0.5, pos.y * 10 + 0.5, 8, 8
 
 eraseBlock = (pos) ->
-	ctx.fillStyle = "#27005b"
+	ctx.fillStyle = "#27005b"  
 	ctx.fillRect pos.x * 10, pos.y * 10, 10, 10
 
 popFood = ->
@@ -77,15 +63,31 @@ tick = ->
 	else
 		map[playerPos.x][playerPos.y] = lifeTime
 
-$ ->
+init = ->
+	nextSpeed = {x: 1, y: 0}
+	speed = {x: 1, y: 0}
+	playerPos = {x: 15, y: 15}
+	food = {x: 16, y: 15}
+
+	lifeTime = 10
+
+	map = (0 for y in [0..(gridSize - 1)] for x in [0..(gridSize - 1)])
+
+	score = 0
+
 	canvas = document.getElementById "game"
+	canvas.width = canvas.width;
 	ctx = canvas.getContext "2d"
 
-	init()
+	ctx.fillStyle = "#27005b"
+	ctx.fillRect 0, 0, gridSize * 10, gridSize * 10
 
 	intervalId = setInterval tick, 100
 
 	popFood()
+
+$ ->
+	init()
 
 	$(document).keydown (event) ->
 		switch event.keyCode
@@ -93,3 +95,7 @@ $ ->
 			when KEY.UP_ARROW then nextSpeed = {x: 0, y: -1} if speed.y != 1; break;
 			when KEY.RIGHT_ARROW then nextSpeed = {x: 1, y: 0} if speed.x != -1; break;
 			when KEY.DOWN_ARROW then nextSpeed = {x: 0, y: 1} if speed.y != -1; break;
+
+	$(".restart a").click ->
+		init()
+		$(".gameOver").hide()
