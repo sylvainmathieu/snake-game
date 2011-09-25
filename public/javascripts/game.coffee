@@ -16,6 +16,10 @@ KEY =
 	RIGHT_ARROW: 39
 	DOWN_ARROW: 40
 
+nextSpeed =
+	x: 1
+	y: 0
+
 speed =
 	x: 1
 	y: 0
@@ -56,6 +60,7 @@ eatFood = ->
 	popFood()
 
 tick = ->
+	speed = nextSpeed
 	position.top += speed.y
 	position.left += speed.x
 
@@ -88,7 +93,7 @@ $ ->
 
 	$(document).keydown (event) ->
 		switch event.keyCode
-			when KEY.LEFT_ARROW then speed = {x: -1, y: 0} if speed.x != 1; break;
-			when KEY.UP_ARROW then speed = {x: 0, y: -1} if speed.y != 1; break;
-			when KEY.RIGHT_ARROW then speed = {x: 1, y: 0} if speed.x != -1; break;
-			when KEY.DOWN_ARROW then speed = {x: 0, y: 1} if speed.y != -1; break;
+			when KEY.LEFT_ARROW then nextSpeed = {x: -1, y: 0} if speed.x != 1; break;
+			when KEY.UP_ARROW then nextSpeed = {x: 0, y: -1} if speed.y != 1; break;
+			when KEY.RIGHT_ARROW then nextSpeed = {x: 1, y: 0} if speed.x != -1; break;
+			when KEY.DOWN_ARROW then nextSpeed = {x: 0, y: 1} if speed.y != -1; break;
