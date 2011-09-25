@@ -59,7 +59,7 @@ tick = ->
 				if map[x][y] == 0
 					eraseBlock {x: x, y: y}
 
-	eatFood() if playerPos.x == food.x && playerPos.x == food.y
+	eatFood() if playerPos.x == food.x && playerPos.y == food.y
 
 	drawBlock playerPos
 
