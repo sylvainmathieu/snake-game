@@ -1,6 +1,7 @@
 
 intervalId = null
 ctx = null
+score = 0
 
 gridSize = 40
 
@@ -47,9 +48,13 @@ popFood = ->
 eatFood = ->
 	eraseBlock playerPos
 	lifeTime++
+	score += 100
 	popFood()
 
 tick = ->
+	score-- if score > 0
+	$(".score").text score
+
 	speed = nextSpeed
 	playerPos.x += speed.x
 	playerPos.y += speed.y
@@ -67,7 +72,8 @@ tick = ->
 
 	if map[playerPos.x] == undefined || map[playerPos.x][playerPos.y] == undefined || map[playerPos.x][playerPos.y] > 0
 		clearInterval(intervalId)
-		alert("Perdu!")
+		$(".gameOver").show()
+		$(".gameOver .finalScore").text score
 	else
 		map[playerPos.x][playerPos.y] = lifeTime
 
