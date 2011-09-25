@@ -28,10 +28,10 @@ init = (ctx) ->
 	ctx.fillRect 0, 0, 300, 300
 
 drawBlock = (ctx, pos) ->
-	ctx.strokeStyle = "rgb(255,255,255)"
-	ctx.strokeRect pos.left * 10 + 1, pos.top * 10 + 1, 8, 8
+	ctx.strokeStyle = "rgba(255,255,255, 0.5)"
+	ctx.strokeRect pos.left * 10 + 0.5, pos.top * 10 + 0.5, 8, 8
 	ctx.fillStyle = "rgba(255,255,255,0.2)"
-	ctx.fillRect pos.left * 10 + 1, pos.top * 10 + 1, 8, 8
+	ctx.fillRect pos.left * 10 + 0.5, pos.top * 10 + 0.5, 8, 8
 
 eraseBlock = (ctx, pos) ->
 	ctx.fillStyle = "#27005b"
@@ -44,10 +44,10 @@ popFood = (ctx) ->
 	randPosition()	
 	randPosition() while map[food.x][food.y] > 0
 
-	ctx.strokeStyle = "rgb(255,255,255)"
-	ctx.strokeRect food.x * 10 + 1, food.y * 10 + 1, 8, 8
-	ctx.fillStyle = "rgba(152,208,0,0.8)"
-	ctx.fillRect food.x * 10 + 1, food.y * 10 + 1, 8, 8
+	ctx.strokeStyle = "rgba(152,208,0,0.8)"
+	ctx.strokeRect food.x * 10 + 0.5, food.y * 10 + 0.5, 8, 8
+	ctx.fillStyle = "rgba(152,208,0,0.5)"
+	ctx.fillRect food.x * 10 + 0.5, food.y * 10 + 0.5, 8, 8
 
 eatFood = (ctx) ->
 	eraseBlock ctx, position
