@@ -1,5 +1,6 @@
 
 intervalId = null
+ctx = null
 
 map = (0 for y in [0..29] for x in [0..29])
 
@@ -23,21 +24,21 @@ position =
 	top: 15
 	left: 15
 
-init = (ctx) ->
+init = ->
 	ctx.fillStyle = "#27005b"
 	ctx.fillRect 0, 0, 300, 300
 
-drawBlock = (ctx, pos) ->
+drawBlock = (pos) ->
 	ctx.strokeStyle = "rgba(255,255,255, 0.5)"
 	ctx.strokeRect pos.left * 10 + 0.5, pos.top * 10 + 0.5, 8, 8
 	ctx.fillStyle = "rgba(255,255,255,0.2)"
 	ctx.fillRect pos.left * 10 + 0.5, pos.top * 10 + 0.5, 8, 8
 
-eraseBlock = (ctx, pos) ->
+eraseBlock = (pos) ->
 	ctx.fillStyle = "#27005b"
 	ctx.fillRect pos.left * 10, pos.top * 10, 10, 10
 
-popFood = (ctx) ->
+popFood = ->
 	randPosition = ->
 		food.x = Math.floor(Math.random() * 30)
 		food.y = Math.floor(Math.random() * 30)
@@ -49,13 +50,12 @@ popFood = (ctx) ->
 	ctx.fillStyle = "rgba(152,208,0,0.5)"
 	ctx.fillRect food.x * 10 + 0.5, food.y * 10 + 0.5, 8, 8
 
-eatFood = (ctx) ->
-	eraseBlock ctx, position
+eatFood = ->
+	eraseBlock position
 	lifeTime++
-	popFood ctx
+	popFood()
 
-tick = (ctx) ->
-
+tick = ->
 	position.top += speed.y
 	position.left += speed.x
 
@@ -64,11 +64,11 @@ tick = (ctx) ->
 			if map[x][y] > 0
 				map[x][y]--
 				if map[x][y] == 0
-					eraseBlock ctx, {top: y, left: x}
+					eraseBlock {top: y, left: x}
 
-	eatFood ctx if position.left == food.x && position.top == food.y
+	eatFood() if position.left == food.x && position.top == food.y
 
-	drawBlock ctx, position
+	drawBlock position
 
 	if map[position.left] == undefined || map[position.left][position.top] == undefined || map[position.left][position.top] > 0
 		clearInterval(intervalId)
@@ -80,11 +80,11 @@ $ ->
 	canvas = document.getElementById "game"
 	ctx = canvas.getContext "2d"
 
-	init ctx
+	init()
 
-	intervalId = setInterval tick, 100, ctx
+	intervalId = setInterval tick, 100
 
-	popFood ctx
+	popFood()
 
 	$(document).keydown (event) ->
 		switch event.keyCode
