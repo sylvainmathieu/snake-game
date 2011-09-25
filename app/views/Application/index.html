@@ -5,4 +5,18 @@
 <script src="@{'/public/javascripts/game.coffee'}" type="text/javascript" charset="${_response_encoding}"></script>
 #{/set}
 
-<canvas id="game" width="300" height="300"></canvas>
+#{set 'moreStyles'}
+<link href='http://fonts.googleapis.com/css?family=Gruppo' rel='stylesheet' type='text/css'>
+#{/set}
+
+<section class="gameWrapper">
+	<header>
+		<h1>Snakes</h1>
+	</header>
+
+	<canvas id="game" width="400" height="400"></canvas>
+
+	<aside>
+		<div class="score">0</div>
+	</aside>
+</section>

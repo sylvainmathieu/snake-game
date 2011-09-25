@@ -2,7 +2,9 @@
 intervalId = null
 ctx = null
 
-map = (0 for y in [0..29] for x in [0..29])
+gridSize = 40
+
+map = (0 for y in [0..(gridSize - 1)] for x in [0..(gridSize - 1)])
 lifeTime = 10
 
 KEY =
@@ -18,7 +20,7 @@ food = {x: 16, y: 15}
 
 init = ->
 	ctx.fillStyle = "#27005b"
-	ctx.fillRect 0, 0, 300, 300
+	ctx.fillRect 0, 0, gridSize * 10, gridSize * 10
 
 drawBlock = (pos) ->
 	ctx.strokeStyle = "rgba(255,255,255, 0.5)"
@@ -52,8 +54,8 @@ tick = ->
 	playerPos.x += speed.x
 	playerPos.y += speed.y
 
-	for y in [0..29]
-		for x in [0..29]
+	for y in [0..(gridSize - 1)]
+		for x in [0..(gridSize - 1)]
 			if map[x][y] > 0
 				map[x][y]--
 				if map[x][y] == 0
