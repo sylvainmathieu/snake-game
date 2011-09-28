@@ -1,8 +1,8 @@
-#{extends 'snakes-main.html' /}
+#{extends 'SnakeGame/main.html' /}
 #{set title:'Home' /}
 
 #{set 'moreScripts'}
-<script src="@{'/public/javascripts/game.coffee'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/snake-game/game.coffee'}" type="text/javascript" charset="${_response_encoding}"></script>
 #{/set}
 
 #{set 'moreStyles'}
@@ -11,7 +11,7 @@
 
 <section class="gameWrapper">
 	<header>
-		<h1>Snakes</h1>
+		<h1>Snake Game</h1>
 	</header>
 
 	<aside class="left">
